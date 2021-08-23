@@ -1,0 +1,85 @@
+<div class="container">
+    <br>
+    <div class="input-group">
+        <input type="text" 
+            class="form-control mb-2"
+            placeholder="buscar por nombre de repuesto ej: sensor..."
+            #txtSearch
+            (keyup)="onSearcProducto(txtSearch.value)"/>
+    </div>	
+    <button class="btn btn-dark" (click)="prevPage()">
+        anteriores
+    </button>
+    &nbsp;
+    <button class="btn btn-dark" (click)="nextPage()" [disabled]="(productoService.productos | filtro:page:search).length === 0">
+        siguientes
+    </button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Imagen
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Marca
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Código
+                </th>
+                <th>
+                    Línea
+                </th>
+                <th>
+                    Categoría
+                </th>
+                <th>
+                    Detalles
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of productoService.productos | filtro:page:search" [ngStyle]= "{ 'height':'100px' }">
+                <td>
+                    <img src="{{ producto.IMAGEN_150 }}" alt="{{ producto.CODIGO }}" title="{{ producto.CODIGO }}" width="75" height="75">
+                </td>
+                <td>{{ producto.NOMBRE }}</td>
+                <td>{{ producto.MARCA }}</td>
+                <td>${{ producto.PRECIO_VENTA }}</td>
+                <td>{{ producto.CODIGO }}</td>
+                <td>{{ producto.LINEA }}</td>
+                <td>{{ producto.CATEGORIA }}</td>
+                <td>
+                    <button class="btn btn-dark" (click)="verProducto(productoModal)">Ver</button>
+                </td>
+                <ng-template #productoModal>
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            {{producto.NOMBRE}}
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card" >
+                            <img class="card-img-top" src="{{ producto.IMAGEN_450 }}" alt="{{ producto.CODIGO }}">
+                            <div class="card-body">
+                              <h3 class="card-title">${{ producto.PRECIO_VENTA }}</h3>
+                              <p class="card-text">{{ producto.DESCRIPCION }}</p>
+                              <span><strong>{{ producto.MARCA }}</strong></span><br>
+                              <span>{{ producto.TIPO_FABRICANTE }}</span><br>
+                              <span>{{ producto.UEN }}</span><br>
+
+                              
+
+                            </div>
+                          </div>
+                    </div>
+                </ng-template>
+            </tr>
+        </tbody>
+    </table>
+</div>
